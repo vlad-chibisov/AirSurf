@@ -127,3 +127,17 @@ for (stack, files) in [("App Icon - Small", [("", 400, 240), ("@2x", 800, 480)])
     }
 }
 print("Icon layers written to \(catalog.path)")
+
+// The README logo: the three layers flattened into one rounded icon on a transparent background,
+// so it sits well on GitHub's light and dark themes.
+let logoScale: CGFloat = 2, logoInset: CGFloat = 8, logoRadius: CGFloat = 26
+let logo = makeContext(Int((400 + 2 * logoInset) * logoScale), Int((240 + 2 * logoInset) * logoScale))
+logo.translateBy(x: 0, y: CGFloat(logo.height)); logo.scaleBy(x: logoScale, y: -logoScale)
+logo.translateBy(x: logoInset, y: logoInset)
+logo.addPath(CGPath(roundedRect: CGRect(x: 0, y: 0, width: 400, height: 240), cornerWidth: logoRadius, cornerHeight: logoRadius, transform: nil))
+logo.clip()
+for draw in [icon.back, icon.middle, icon.front] { draw(logo) }
+let logoURL = URL(fileURLWithPath: ".github/logo.png")
+try FileManager.default.createDirectory(at: logoURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+save(logo.makeImage()!, logoURL)
+print("README logo written to \(logoURL.path)")

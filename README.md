@@ -1,5 +1,18 @@
-AirSurf
-=======
+<p align="center">
+  <img src=".github/logo.png" alt="AirSurf icon: a compass with a surfboard for a needle" width="360">
+</p>
+
+<h1 align="center">AirSurf</h1>
+
+<p align="center">
+  <b>A web browser for Apple TV</b>, with videos that continue in the Apple TV player.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/tvOS-26-black?logo=apple" alt="tvOS 26">
+  <img src="https://img.shields.io/badge/Xcode-27%2B-147EFB?logo=xcode&logoColor=white" alt="Xcode 27 or later">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2BB5E8" alt="MIT license"></a>
+</p>
 
 A web browser for Apple TV. This version is for personal and amateur side use on tvOS 26:
 
