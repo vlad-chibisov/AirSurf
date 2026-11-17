@@ -9,12 +9,13 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/tvOS-26-black?logo=apple" alt="tvOS 26">
+  <img src="https://img.shields.io/badge/tvOS-26%2B-black?logo=apple" alt="tvOS 26 or later">
   <img src="https://img.shields.io/badge/Xcode-27%2B-147EFB?logo=xcode&logoColor=white" alt="Xcode 27 or later">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2BB5E8" alt="MIT license"></a>
 </p>
 
-A web browser for Apple TV. This version is for personal and amateur side use on tvOS 26:
+AirSurf runs on every Apple TV that can install apps, from the Apple TV HD to the latest Apple TV 4K,
+with tvOS 26 or later.
 
 - **Redesigned interface**: a floating toolbar, a start page with your favourite and recent sites as
   large tiles, a side-panel menu, and a card-based tab overview. All of them use the tvOS focus engine.
