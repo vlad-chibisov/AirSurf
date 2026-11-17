@@ -270,7 +270,7 @@ static CGFloat const kToolbarRevealEdge = 28.0;
     self.unavailableLabel.numberOfLines = 0;
     self.unavailableLabel.textAlignment = NSTextAlignmentCenter;
     self.unavailableLabel.textColor = [BrowserTheme primaryTextColor];
-    self.unavailableLabel.font = [UIFont systemFontOfSize:36.0 weight:UIFontWeightMedium];
+    self.unavailableLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleHeadline emphasized:NO];
     self.unavailableLabel.text = @"This version of tvOS does not include the web engine this app needs.";
     [self.view addSubview:self.unavailableLabel];
 }

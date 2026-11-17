@@ -73,7 +73,7 @@ static void *kPlayerItemStatusContext = &kPlayerItemStatusContext;
     self.player = player;
 
     self.noticeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.noticeLabel.font = [UIFont systemFontOfSize:29.0 weight:UIFontWeightSemibold];
+    self.noticeLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:YES];
     self.noticeLabel.textColor = UIColor.whiteColor;
     self.noticeLabel.textAlignment = NSTextAlignmentCenter;
     self.noticeLabel.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.62];

@@ -71,6 +71,25 @@
     return [UIColor colorWithHue:hue saturation:0.55 brightness:0.62 alpha:1.0];
 }
 
++ (UIFont *)fontForTextStyle:(UIFontTextStyle)style emphasized:(BOOL)emphasized {
+    static NSDictionary<UIFontTextStyle, NSNumber *> *sizes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sizes = @{
+            UIFontTextStyleTitle1: @76.0,
+            UIFontTextStyleTitle2: @57.0,
+            UIFontTextStyleTitle3: @48.0,
+            UIFontTextStyleHeadline: @38.0,
+            UIFontTextStyleCallout: @31.0,
+            UIFontTextStyleBody: @29.0,
+            UIFontTextStyleCaption1: @25.0,
+            UIFontTextStyleCaption2: @23.0,
+        };
+    });
+    CGFloat size = sizes[style] != nil ? sizes[style].doubleValue : 29.0;
+    return [UIFont systemFontOfSize:size weight:emphasized ? UIFontWeightBold : UIFontWeightMedium];
+}
+
 + (UIImage *)symbolNamed:(NSString *)name pointSize:(CGFloat)pointSize weight:(UIImageSymbolWeight)weight {
     UIImageSymbolConfiguration *configuration = [UIImageSymbolConfiguration configurationWithPointSize:pointSize weight:weight];
     UIImage *image = [UIImage systemImageNamed:name withConfiguration:configuration];

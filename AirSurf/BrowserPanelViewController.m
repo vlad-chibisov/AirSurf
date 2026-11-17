@@ -116,17 +116,17 @@ static NSString * const kPanelHeaderIdentifier = @"BrowserPanelHeader";
         [self.contentView addSubview:_symbolView];
 
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.font = [UIFont systemFontOfSize:30.0 weight:UIFontWeightMedium];
+        _titleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:NO];
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_titleLabel];
 
         _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _subtitleLabel.font = [UIFont systemFontOfSize:23.0 weight:UIFontWeightRegular];
+        _subtitleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCaption2 emphasized:NO];
         _subtitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_subtitleLabel];
 
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _valueLabel.font = [UIFont systemFontOfSize:27.0 weight:UIFontWeightRegular];
+        _valueLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:NO];
         _valueLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:_valueLabel];
 
@@ -290,14 +290,14 @@ static NSString * const kPanelHeaderIdentifier = @"BrowserPanelHeader";
     [self.panelView.contentView addSubview:self.backChevronView];
 
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.titleLabel.font = [UIFont systemFontOfSize:42.0 weight:UIFontWeightBold];
+    self.titleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleHeadline emphasized:YES];
     self.titleLabel.textColor = [BrowserTheme primaryTextColor];
     self.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.titleLabel.minimumScaleFactor = 0.7;
     [self.panelView.contentView addSubview:self.titleLabel];
 
     self.footerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.footerLabel.font = [UIFont systemFontOfSize:21.0 weight:UIFontWeightRegular];
+    self.footerLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCaption2 emphasized:NO];
     self.footerLabel.textColor = [BrowserTheme secondaryTextColor];
     self.footerLabel.textAlignment = NSTextAlignmentCenter;
     self.footerLabel.text = self.footerText;
@@ -322,7 +322,7 @@ static NSString * const kPanelHeaderIdentifier = @"BrowserPanelHeader";
     [self.panelView.contentView addSubview:self.tableView];
 
     self.emptyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.emptyLabel.font = [UIFont systemFontOfSize:27.0 weight:UIFontWeightRegular];
+    self.emptyLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:NO];
     self.emptyLabel.textColor = [BrowserTheme secondaryTextColor];
     self.emptyLabel.textAlignment = NSTextAlignmentCenter;
     self.emptyLabel.numberOfLines = 0;
@@ -556,10 +556,10 @@ static NSString * const kPanelHeaderIdentifier = @"BrowserPanelHeader";
     if (header) {
         label.attributedText = [[NSAttributedString alloc] initWithString:text.uppercaseString
                                                                attributes:@{ NSKernAttributeName: @1.2,
-                                                                             NSFontAttributeName: [UIFont systemFontOfSize:21.0 weight:UIFontWeightSemibold],
+                                                                             NSFontAttributeName: [BrowserTheme fontForTextStyle:UIFontTextStyleCaption2 emphasized:YES],
                                                                              NSForegroundColorAttributeName: [BrowserTheme secondaryTextColor] }];
     } else {
-        label.font = [UIFont systemFontOfSize:21.0 weight:UIFontWeightRegular];
+        label.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCaption2 emphasized:NO];
         label.textColor = [BrowserTheme secondaryTextColor];
         label.text = text;
     }

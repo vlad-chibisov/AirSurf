@@ -139,12 +139,12 @@ static CGFloat const kBarButtonSpacing = 6.0;
         self.plateView.layer.cornerRadius = 0.0;
 
         _hostLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _hostLabel.font = [UIFont systemFontOfSize:29.0 weight:UIFontWeightSemibold];
+        _hostLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:YES];
         _hostLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self addSubview:_hostLabel];
 
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.font = [UIFont systemFontOfSize:27.0 weight:UIFontWeightRegular];
+        _titleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:NO];
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self addSubview:_titleLabel];
 
@@ -280,7 +280,9 @@ static CGFloat const kBarButtonSpacing = 6.0;
         _menuButton = [[BrowserBarButton alloc] initWithAction:BrowserTopBarActionMenu symbolName:@"ellipsis" accessibilityLabel:@"Menu"];
 
         UILabel *tabCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        tabCountLabel.font = [UIFont monospacedDigitSystemFontOfSize:25.0 weight:UIFontWeightSemibold];
+        // Caption1 on the tvOS ramp, with tabular digits so the count doesn't shift as it changes.
+        tabCountLabel.font = [UIFont monospacedDigitSystemFontOfSize:[BrowserTheme fontForTextStyle:UIFontTextStyleCaption1 emphasized:YES].pointSize
+                                                              weight:UIFontWeightBold];
         tabCountLabel.textAlignment = NSTextAlignmentLeft;
         [_tabsButton addSubview:tabCountLabel];
         _tabsButton.textLabel = tabCountLabel;

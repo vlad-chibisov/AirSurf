@@ -5,8 +5,9 @@
 
 static NSString * const kTileCellIdentifier = @"BrowserSiteTileCell";
 static NSString * const kHeaderIdentifier = @"BrowserStartPageHeader";
-static CGFloat const kTileArtworkHeight = 176.0;
-static CGFloat const kTileHeight = 262.0;
+static CGFloat const kTileArtworkHeight = 196.0;
+static CGFloat const kTileHeight = 282.0;
+static CGFloat const kTileGutter = 40.0;
 static NSUInteger const kTilesPerRow = 5;
 
 #pragma mark - Site icons
@@ -147,7 +148,7 @@ static NSUInteger const kTilesPerRow = 5;
         [_artworkView.layer addSublayer:_gradientLayer];
 
         _monogramLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _monogramLabel.font = [UIFont systemFontOfSize:78.0 weight:UIFontWeightBold];
+        _monogramLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleTitle1 emphasized:YES];
         _monogramLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.95];
         _monogramLabel.textAlignment = NSTextAlignmentCenter;
         [_artworkView addSubview:_monogramLabel];
@@ -161,13 +162,13 @@ static NSUInteger const kTilesPerRow = 5;
         [_artworkView addSubview:_iconView];
 
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.font = [UIFont systemFontOfSize:27.0 weight:UIFontWeightSemibold];
+        _titleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:NO];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_titleLabel];
 
         _hostLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _hostLabel.font = [UIFont systemFontOfSize:22.0 weight:UIFontWeightRegular];
+        _hostLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCaption2 emphasized:NO];
         _hostLabel.textAlignment = NSTextAlignmentCenter;
         _hostLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self.contentView addSubview:_hostLabel];
@@ -191,8 +192,8 @@ static NSUInteger const kTilesPerRow = 5;
     self.monogramLabel.frame = self.artworkView.bounds;
     self.iconView.bounds = CGRectMake(0.0, 0.0, 104.0, 104.0);
     self.iconView.center = CGPointMake(width / 2.0, kTileArtworkHeight / 2.0);
-    self.titleLabel.frame = CGRectMake(0.0, kTileArtworkHeight + 20.0, width, 34.0);
-    self.hostLabel.frame = CGRectMake(0.0, kTileArtworkHeight + 54.0, width, 28.0);
+    self.titleLabel.frame = CGRectMake(0.0, kTileArtworkHeight + 20.0, width, 36.0);
+    self.hostLabel.frame = CGRectMake(0.0, kTileArtworkHeight + 56.0, width, 30.0);
 }
 
 - (void)configureWithEntry:(BrowserLibraryEntry *)entry {
@@ -261,7 +262,7 @@ static NSUInteger const kTilesPerRow = 5;
     if (self) {
         _label = [[UILabel alloc] initWithFrame:self.bounds];
         _label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _label.font = [UIFont systemFontOfSize:36.0 weight:UIFontWeightBold];
+        _label.font = [BrowserTheme fontForTextStyle:UIFontTextStyleHeadline emphasized:YES];
         _label.textColor = [BrowserTheme primaryTextColor];
         [self addSubview:_label];
     }
@@ -309,7 +310,7 @@ static NSUInteger const kTilesPerRow = 5;
         _emptyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _emptyLabel.numberOfLines = 0;
         _emptyLabel.textAlignment = NSTextAlignmentCenter;
-        _emptyLabel.font = [UIFont systemFontOfSize:31.0 weight:UIFontWeightRegular];
+        _emptyLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCallout emphasized:NO];
         _emptyLabel.textColor = [BrowserTheme secondaryTextColor];
         _emptyLabel.text = @"Sites you add to Favorites appear here.\nOpen a page and choose the star in the toolbar.";
         _emptyLabel.hidden = YES;
@@ -331,24 +332,30 @@ static NSUInteger const kTilesPerRow = 5;
 }
 
 - (UICollectionViewLayout *)makeLayout {
-    NSCollectionLayoutSize *itemSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.0 / kTilesPerRow]
-                                                                      heightDimension:[NSCollectionLayoutDimension fractionalHeightDimension:1.0]];
-    NSCollectionLayoutItem *item = [NSCollectionLayoutItem itemWithLayoutSize:itemSize];
-    item.contentInsets = NSDirectionalEdgeInsetsMake(0.0, 20.0, 0.0, 20.0);
-    NSCollectionLayoutSize *groupSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.0]
-                                                                       heightDimension:[NSCollectionLayoutDimension absoluteDimension:kTileHeight]];
-    NSCollectionLayoutGroup *group = [NSCollectionLayoutGroup horizontalGroupWithLayoutSize:groupSize subitems:@[item]];
-    NSCollectionLayoutSection *section = [NSCollectionLayoutSection sectionWithGroup:group];
-    section.interGroupSpacing = 36.0;
-    section.contentInsets = NSDirectionalEdgeInsetsMake(26.0, 60.0, 64.0, 60.0);
-    NSCollectionLayoutSize *headerSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.0]
-                                                                        heightDimension:[NSCollectionLayoutDimension absoluteDimension:48.0]];
-    NSCollectionLayoutBoundarySupplementaryItem *header = [NSCollectionLayoutBoundarySupplementaryItem boundarySupplementaryItemWithLayoutSize:headerSize
-                                                                                                                                     elementKind:UICollectionElementKindSectionHeader
-                                                                                                                                       alignment:NSRectAlignmentTop];
-    header.contentInsets = NSDirectionalEdgeInsetsMake(0.0, 20.0, 0.0, 20.0);
-    section.boundarySupplementaryItems = @[header];
-    return [[UICollectionViewCompositionalLayout alloc] initWithSection:section];
+    // Five columns on the tvOS grid: the screen's safe area (80 pt at the sides) and 40 pt gutters,
+    // so tiles line up with the edges of the toolbar.
+    return [[UICollectionViewCompositionalLayout alloc] initWithSectionProvider:^NSCollectionLayoutSection *(__unused NSInteger sectionIndex, id<NSCollectionLayoutEnvironment> environment) {
+        CGFloat width = environment.container.effectiveContentSize.width;
+        CGFloat tileWidth = floor((width - kTileGutter * (kTilesPerRow - 1)) / kTilesPerRow);
+        NSCollectionLayoutSize *itemSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension absoluteDimension:tileWidth]
+                                                                          heightDimension:[NSCollectionLayoutDimension fractionalHeightDimension:1.0]];
+        NSCollectionLayoutItem *item = [NSCollectionLayoutItem itemWithLayoutSize:itemSize];
+        NSCollectionLayoutSize *groupSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.0]
+                                                                           heightDimension:[NSCollectionLayoutDimension absoluteDimension:kTileHeight]];
+        NSCollectionLayoutGroup *group = [NSCollectionLayoutGroup horizontalGroupWithLayoutSize:groupSize subitems:@[item]];
+        group.interItemSpacing = [NSCollectionLayoutSpacing fixedSpacing:kTileGutter];
+        NSCollectionLayoutSection *section = [NSCollectionLayoutSection sectionWithGroup:group];
+        section.contentInsetsReference = UIContentInsetsReferenceSafeArea;
+        section.interGroupSpacing = 36.0;
+        section.contentInsets = NSDirectionalEdgeInsetsMake(26.0, 0.0, 64.0, 0.0);
+        NSCollectionLayoutSize *headerSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.0]
+                                                                            heightDimension:[NSCollectionLayoutDimension absoluteDimension:48.0]];
+        NSCollectionLayoutBoundarySupplementaryItem *header = [NSCollectionLayoutBoundarySupplementaryItem boundarySupplementaryItemWithLayoutSize:headerSize
+                                                                                                                                         elementKind:UICollectionElementKindSectionHeader
+                                                                                                                                           alignment:NSRectAlignmentTop];
+        section.boundarySupplementaryItems = @[header];
+        return section;
+    }];
 }
 
 - (void)setTopInset:(CGFloat)topInset {

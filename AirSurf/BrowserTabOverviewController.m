@@ -5,9 +5,11 @@
 #import "BrowserViewModel.h"
 
 static NSString * const kTabCellIdentifier = @"BrowserTabCardCell";
-static CGFloat const kTabCardWidth = 520.0;
+// Three columns on the tvOS grid (80 pt margins, 40 pt gutters). At most six cards, so both rows
+// fit between the title and the hint without scrolling.
+static CGFloat const kTabCardWidth = 560.0;
 static CGFloat const kTabCardImageHeight = 292.0;
-static CGFloat const kTabCardHeight = 380.0;
+static CGFloat const kTabCardHeight = 378.0;
 
 @interface BrowserTabCardCell : UICollectionViewCell
 
@@ -50,13 +52,13 @@ static CGFloat const kTabCardHeight = 380.0;
         [_cardView addSubview:_symbolView];
 
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.font = [UIFont systemFontOfSize:29.0 weight:UIFontWeightSemibold];
+        _titleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:NO];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_titleLabel];
 
         _detailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _detailLabel.font = [UIFont systemFontOfSize:23.0 weight:UIFontWeightRegular];
+        _detailLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCaption2 emphasized:NO];
         _detailLabel.textAlignment = NSTextAlignmentCenter;
         _detailLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self.contentView addSubview:_detailLabel];
@@ -76,7 +78,7 @@ static CGFloat const kTabCardHeight = 380.0;
     self.snapshotView.frame = self.cardView.bounds;
     self.symbolView.frame = self.cardView.bounds;
     self.titleLabel.frame = CGRectMake(0.0, kTabCardImageHeight + 22.0, width, 36.0);
-    self.detailLabel.frame = CGRectMake(0.0, kTabCardImageHeight + 58.0, width, 30.0);
+    self.detailLabel.frame = CGRectMake(0.0, kTabCardImageHeight + 56.0, width, 30.0);
 }
 
 - (void)configureWithTab:(BrowserTabViewModel *)tab isActive:(BOOL)isActive {
@@ -163,14 +165,14 @@ static CGFloat const kTabCardHeight = 380.0;
     scrim.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.35];
     [self.view addSubview:scrim];
 
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(90.0, 64.0, 800.0, 60.0)];
-    self.titleLabel.font = [UIFont systemFontOfSize:50.0 weight:UIFontWeightBold];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80.0, 60.0, 800.0, 66.0)];
+    self.titleLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleTitle2 emphasized:YES];
     self.titleLabel.textColor = [BrowserTheme primaryTextColor];
     self.titleLabel.text = @"Tabs";
     [self.view addSubview:self.titleLabel];
 
     self.hintLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.hintLabel.font = [UIFont systemFontOfSize:25.0 weight:UIFontWeightRegular];
+    self.hintLabel.font = [BrowserTheme fontForTextStyle:UIFontTextStyleCaption1 emphasized:NO];
     self.hintLabel.textColor = [BrowserTheme secondaryTextColor];
     self.hintLabel.textAlignment = NSTextAlignmentCenter;
     self.hintLabel.text = @"Press Play/Pause to close the highlighted tab";
@@ -178,9 +180,9 @@ static CGFloat const kTabCardHeight = 380.0;
 
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.itemSize = CGSizeMake(kTabCardWidth, kTabCardHeight);
-    layout.minimumInteritemSpacing = 60.0;
-    layout.minimumLineSpacing = 56.0;
-    layout.sectionInset = UIEdgeInsetsMake(40.0, 90.0, 60.0, 90.0);
+    layout.minimumInteritemSpacing = 40.0;
+    layout.minimumLineSpacing = 40.0;
+    layout.sectionInset = UIEdgeInsetsMake(24.0, 80.0, 20.0, 80.0);
 
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     self.collectionView.backgroundColor = UIColor.clearColor;
@@ -200,8 +202,10 @@ static CGFloat const kTabCardHeight = 380.0;
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     CGRect bounds = self.view.bounds;
-    self.collectionView.frame = CGRectMake(0.0, 140.0, CGRectGetWidth(bounds), CGRectGetHeight(bounds) - 140.0 - 90.0);
-    self.hintLabel.frame = CGRectMake(0.0, CGRectGetHeight(bounds) - 96.0, CGRectGetWidth(bounds), 36.0);
+    CGFloat top = CGRectGetMaxY(self.titleLabel.frame);
+    CGFloat hintY = CGRectGetHeight(bounds) - 96.0;
+    self.collectionView.frame = CGRectMake(0.0, top, CGRectGetWidth(bounds), hintY - top);
+    self.hintLabel.frame = CGRectMake(0.0, hintY, CGRectGetWidth(bounds), 36.0);
 }
 
 - (void)reloadTabs {

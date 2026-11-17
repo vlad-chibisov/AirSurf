@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Stable colour for a site tile, derived from its host name.
 + (UIColor *)tileColorForString:(NSString *)string;
 
+/// tvOS type ramp from Apple's tvOS UI kit: Title1 76, Title2 57, Title3 48, Headline 38,
+/// Callout 31, Body 29, Caption1 25, Caption2 23. tvOS sets text in two weights only:
+/// Medium by default and Bold when emphasized.
++ (UIFont *)fontForTextStyle:(UIFontTextStyle)style emphasized:(BOOL)emphasized;
+
 + (UIImage *)symbolNamed:(NSString *)name pointSize:(CGFloat)pointSize weight:(UIImageSymbolWeight)weight;
 
 /// Critically damped spring: the default for everything that moves.

@@ -35,7 +35,7 @@ static CGFloat const kHUDBottomInset = 84.0;
         [_capsuleView.contentView addSubview:_symbolView];
 
         _label = [[UILabel alloc] initWithFrame:CGRectZero];
-        _label.font = [UIFont systemFontOfSize:29.0 weight:UIFontWeightSemibold];
+        _label.font = [BrowserTheme fontForTextStyle:UIFontTextStyleBody emphasized:YES];
         _label.textColor = [BrowserTheme primaryTextColor];
         _label.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [_capsuleView.contentView addSubview:_label];
