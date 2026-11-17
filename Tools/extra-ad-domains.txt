@@ -1,0 +1,112 @@
+# Ad, pop-under and tracking networks that show up on video and streaming sites
+# (many of them Russian-language) and are not in the Peter Lowe list.
+# One domain per line; subdomains are blocked too. Lines starting with # are ignored.
+#
+# Do not add video CDNs or player hosts here: blocking them breaks playback.
+
+# Pop-under / push / redirect networks
+propellerads.com
+propu.sh
+onclickads.net
+onclickalgo.com
+onclkds.com
+popads.net
+popcash.net
+popunder.net
+adsterra.com
+adsterratech.com
+highperformanceformat.com
+profitabledisplaynetwork.com
+exoclick.com
+exosrv.com
+juicyads.com
+clickadu.com
+clickaine.com
+hilltopads.net
+hilltopads.com
+a-ads.com
+adcash.com
+trafficstars.com
+tsyndicate.com
+monetag.com
+galaksion.com
+richads.com
+pushub.net
+evadav.com
+rollerads.com
+clickadilla.com
+adspyglass.com
+admaven.com
+ad-maven.com
+bidvertiser.com
+revcontent.com
+mgid.com
+adskeeper.com
+adskeeper.co.uk
+lentainform.com
+marketgid.com
+directadvert.ru
+traffic-media.co
+realsrv.com
+
+# Russian ad exchanges and counters
+an.yandex.ru
+yandexadexchange.net
+adfox.ru
+adfox.yandex.ru
+mc.yandex.ru
+mc.yandex.com
+adriver.ru
+soloway.ru
+otm-r.com
+hybrid.ai
+buzzoola.com
+mediasniper.ru
+betweendigital.com
+adhigh.net
+adnxs.com
+top-fwz1.mail.ru
+ad.mail.ru
+counter.yadro.ru
+tns-counter.ru
+mediametrics.ru
+smi2.ru
+smi2.net
+24smi.org
+24smi.net
+relap.io
+sape.ru
+begun.ru
+kadam.net
+vidfront.ru
+moevideo.biz
+videonow.ru
+vidtrack.ru
+adlook.ru
+digitalcaramel.com
+aviabids.com
+playmatic.video
+utraff.com
+viadata.store
+# Betting / casino banner networks heavily used on film sites
+1xlite.com
+1xbet.com
+1xstavka.ru
+parimatch.ru
+pin-up.casino
+pinup.ru
+vulkan.casino
+leon.ru
+
+# Floating video ads and their loaders on lordfilm-style sites (seen November 2026)
+moviead55.ru
+vak345.com
+metriccca.ru
+myangular.life
+# Same networks under rotating numbered domains. "re:" lines are host patterns in WebKit's
+# regex subset: no "|" alternatives and no {n} counts, or the whole list fails to compile.
+re:moviead[0-9]*\.ru
+re:moviead[0-9]*\.com
+re:vak[0-9]+\.com
+re:vak[0-9]+\.ru
+re:metricc+a?\.ru

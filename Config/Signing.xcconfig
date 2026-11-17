@@ -1,0 +1,17 @@
+// Code signing for AirSurf.
+//
+// Don't put your own team or bundle identifier here. Create Config/Signing.local.xcconfig
+// (git ignores it) with these two lines, filled in with your values:
+//
+//     DEVELOPMENT_TEAM = ABCDE12345
+//     AIRSURF_BUNDLE_ID = com.yourname.airsurf
+//
+// Your team ID is in Xcode › Settings › Accounts, or developer.apple.com › Membership.
+// A free Apple ID works too; its builds stop opening after 7 days.
+
+DEVELOPMENT_TEAM =
+AIRSURF_BUNDLE_ID = com.example.airsurf
+
+#include? "Signing.local.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = $(AIRSURF_BUNDLE_ID)
