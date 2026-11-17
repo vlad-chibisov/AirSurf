@@ -14,28 +14,39 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2BB5E8" alt="MIT license"></a>
 </p>
 
-AirSurf runs on every Apple TV that can install apps, from the Apple TV HD to the latest Apple TV 4K,
-with tvOS 26 or later.
+### Ever wanted to open a website on your Apple TV?
 
-- **Redesigned interface**: a floating toolbar, a start page with your favourite and recent sites as
-  large tiles, a side-panel menu, and a card-based tab overview. All of them use the tvOS focus engine.
-  Liquid Glass is used on newer Apple TVs. The first Apple TV 4K (A1842, `AppleTV6,2`) and the Apple TV HD
-  get a lighter blur instead, which costs less to draw.
-- **Videos continue in the Apple TV player**: use the site's own player to pick the episode, voice-over
-  and quality, then press its full-screen button. The video continues full screen in the system player,
-  from the same stream and position, with the normal Siri Remote scrubbing, info panel, and audio and
-  subtitle menus. This works for players embedded from other sites (iframes), which is how most film and
-  series sites show video. Videos resume where you stopped.
-- **Ad and pop-up blocking**: about 3,600 ad and tracking domains are blocked, and pop-ups that a page opens
-  without you choosing a link are stopped.
+Apple TV has no Safari, and the App Store has no browser for it either. So the film site you use on your
+laptop, the match stream your friend sent, the recipe you want on the big screen: none of them can be
+opened on the TV.
 
-It uses private APIs (WebKit is not public on tvOS), so it can only be installed from Xcode, never the App Store.
+AirSurf changes that. It is a full web browser made for the Siri Remote: open any site, click around with
+an on-screen pointer, and when a video starts, send it to the Apple TV player and watch it like anything
+else on your TV.
+
+It works on every Apple TV that can install apps, from the Apple TV HD to the latest Apple TV 4K, with
+tvOS 26 or later.
+
+What you get
+------------
+
+- **An interface that feels at home on Apple TV.** A start page with your favourite and recent sites as
+  big tiles, a floating toolbar, a side menu and a card view of your tabs, all moved around with the
+  remote the way you're used to. Newer Apple TVs get the Liquid Glass look.
+- **Videos in the Apple TV player.** Pick the episode, voice-over and quality in the site's own player,
+  then press its full-screen button. The video carries on in the Apple TV player from the same spot, with
+  normal Siri Remote scrubbing, and with the audio and subtitle menus you know. The subtitles you had on in
+  the page come along. Next time, the video picks up where you stopped.
+- **Fewer ads and pop-ups.** Thousands of ad and tracking sites are blocked, and pages can't open pop-ups
+  you didn't ask for.
+- **Your tabs stay put.** Open tabs, favourites and site logins are still there after you close the app.
 
 Installing
 ----------
 
-There is no download: you build AirSurf yourself and sign it with your own Apple ID. A free Apple ID is
-enough; a paid developer account only changes how long the app keeps working (see below).
+AirSurf isn't on the App Store (Apple doesn't allow browsers on Apple TV), so you build it yourself on a
+Mac and install it straight onto your Apple TV. It takes about ten minutes the first time, and a free
+Apple ID is enough.
 
 1. Open `AirSurf.xcodeproj` in Xcode 27 or later.
 2. Create `Config/Signing.local.xcconfig` with your team and a bundle identifier of your own:
@@ -52,77 +63,43 @@ enough; a paid developer account only changes how long the app keeps working (se
    Devices; in Xcode, Window › Devices and Simulators. Select the Apple TV as the run destination and
    press Run.
 
-Builds signed with a free Apple ID stop opening after 7 days; run from Xcode again to renew. With a paid
-developer account they last a year.
+With a free Apple ID the app stops opening after 7 days; press Run in Xcode again to renew it. With a paid
+developer account it lasts a year.
 
-Using it
---------
+Using the remote
+----------------
 
 | On a page | |
 |---|---|
 | Swipe | Move the pointer. Pushing it past a screen edge scrolls the page. |
-| Click | Click what is under the pointer. A video plays inside the page. |
+| Click | Click what is under the pointer |
 | A player's full-screen button | The video continues in the Apple TV player |
-| Hold click | Actions: open link in a new tab, add to Favorites, play the page's video full screen |
+| Hold click | Open a link in a new tab, add to Favorites, play the page's video full screen |
 | Play/Pause | Scroll mode: swipes scroll the page. Click or press Play/Pause again to leave it. |
 | Hold Play/Pause | Menu |
 | Up / Down on the clickpad | Scroll by most of a screen |
 | Back | Previous page, then the start page, then the Home screen |
 
-On the start page, in menus and in the tab overview the remote works as it does elsewhere in tvOS.
-In the tab overview, Play/Pause closes the highlighted tab.
+On the start page, in menus and in the tab overview the remote works as it does everywhere else on
+Apple TV. In the tab overview, Play/Pause closes the highlighted tab.
 
-Quality and voice-over chosen in the site's player carry over: either they change the stream itself,
-which is how most of these players work, or (players built on hls.js) the choice is applied in the
-Apple TV player's own track and quality selection. Subtitles carry over too. Those that are part of the
-stream are in the Apple TV player's subtitle menu anyway. Those a site's player loads as separate files
-(WebVTT or SRT) are added to the stream as ordinary subtitle tracks, so they appear in the same menu in
-the system caption style, and the one that was on in the page is on. The menu gets one track per
-language (it names tracks by language only): the one you had on, otherwise the most complete one. When
-the native player can't open a stream, the app says so and you can watch it in the page.
+If "Play Video Full Screen" picks the wrong video (an advert, say), *Menu › All Videos on This Page*
+lists every video the page has loaded.
 
-Some players need Media Source Extensions, which WebKit on Apple TV doesn't have; they used to stop with
-"browser not supported" or "update iOS". For those the app gives the player a stand-in and plays the
-same stream with the system's own HLS support, so the player's menus work and the video plays in the
-page. Known players get this straight away; any other hls.js player that reports itself unsupported
-is reloaded once with it.
-If "Play Video Full Screen" picks the wrong stream (an advert, say), *Menu › All Videos on This Page*
-lists every stream the page has loaded.
+In *Menu › Settings* you can turn ad and pop-up blocking on or off, choose whether videos go to the Apple
+TV player, zoom pages (125% suits most sites on a TV), keep the toolbar visible or let it hide, ask for
+desktop or mobile versions of sites, pick a search engine (Google, Yandex, DuckDuckGo, Bing), set the
+pointer speed, and choose what new tabs open.
 
-Settings (Menu › Settings): ad blocking, pop-up blocking, the tvOS player on/off, page zoom
-(125% suits most sites on a TV), always-visible or auto-hiding toolbar, desktop or mobile versions of
-sites, search engine (Google, Yandex, DuckDuckGo, Bing), pointer speed, and what new tabs open.
+Good to know
+------------
 
-What is and isn't possible
---------------------------
+- **Netflix, YouTube and other paid or protected services won't work.** They lock their video so that
+  only their own apps can play it. Use their Apple TV apps for those.
+- Sites that only offer some less common video formats may play inside the page only, or not at all.
+- There are no browser extensions: Apple TV has no system for them.
 
-- **Storage on Apple TV**: apps may only write to their Caches folder, and their settings are capped at
-  about 500 KB. Compiled ad-block rules, open tabs, thumbnails, cookies and what sites save in the
-  browser (local storage, IndexedDB) therefore live in Caches, with small copies of tabs and cookies in
-  settings in case tvOS clears Caches.
-- **Ad blocking** uses WebKit's built-in content blocker, the same engine Safari's blockers use, so it
-  costs almost nothing at page-load time. The list is in `AirSurf/Resources/ContentRules-Ads.json`
-  and is generated by `Tools/update_content_rules.py` from Peter Lowe's ad server list plus
-  `Tools/extra-ad-domains.txt` (ad networks common on streaming sites; `re:` lines are host patterns
-  for networks that rotate numbered domains). To refresh it:
-  `python3 Tools/update_content_rules.py --download`, then rebuild.
-- **Browser extensions** in the Safari or Chrome sense are not possible: tvOS has no Safari, and WebKit on
-  tvOS has no extension system. The same effect comes from scripts the app injects into every page; the
-  video detection in `Resources/BrowserAgent.js` works this way. Site-specific fixes would go there too.
-- **Video**: WebKit on tvOS has no Media Source Extensions, so in-page playback always goes through the
-  system's HLS support (see the stand-in above). The Apple TV player plays HLS (`.m3u8`) and MP4/MOV. Sites that only serve DASH or WebM, or
-  that protect streams with DRM (Netflix, most paid services), keep playing in the page, or not at all.
-  YouTube is one of these: it does not hand out plain streams.
-
-Development
------------
-
-The project has no dependencies. Debug builds accept launch arguments for testing in the Simulator, where
-the Siri Remote can't be scripted: `-DebugURL <url>`, `-DebugClicks "x,y@seconds;..."`,
-`-DebugScroll "y@seconds"`, `-DebugActions "newtab@1;tabs@3;hold@5;menu@7"`,
-`-DebugEval "js@seconds"` (result in the log). They do nothing in Release builds.
-
-`BROWSER_MATERIALS=light` or `=glass` in the scheme's environment forces the lighter or the Liquid Glass look.
+Want to know how it works, or help improve it? See [DEVELOPMENT.md](DEVELOPMENT.md).
 
 License
 -------
